@@ -1,7 +1,6 @@
-# You Draw I Guess
+# You Draw I Guess · 你画我猜
 
-一个基于 Vue3 + Node.js + Socket.IO 的多人在线画图猜词游戏。
-
+一个基于 Vue 3 + TypeScript + Socket.IO 的多人实时房间与聊天的你画我猜应用，此项目亮点为搭配ai workflow实现ai玩家（包括识图，聊天，评价等功能）（开发中...）。本仓库为 monorepo，包含前端与后端两部分，但 README 重点突出前端，后端给出框架概览。
 ## 项目结构
 
 这是一个 monorepo 项目，包含前端和后端两个子项目：
@@ -26,14 +25,37 @@ you_draw_i_guess/
 ├── .editorconfig
 └── README.md
 ```
+## 前端亮点
 
-## 技术栈
+### 实时通信（Socket.IO + Pinia）
+- 连接与握手：首次连接后发送 `identify` 完成身份识别；统一在 Pinia actions 中管理连接、订阅、解绑与错误处理。
+- Ack 语义与一致性：加入/离开房间使用回调确认（Ack），确保本地状态只在成功后更新，避免“幽灵成员”。
+- 断线重连与恢复：自动检测断线并重连；重连后按上次上下文恢复房间与订阅，展示连接状态指示与重试提示。
+- 事件分层：消息、系统提示、成员列表/房间列表分别通过独立事件流维护，降低耦合，便于扩展玩法（画布/语音）。
+- 性能与背压：对高频事件做节流/合并（如成员心跳、消息已读回执），避免 UI 抖动与网络拥塞。
 
-### 前端 (udig_fe)
-- **Vue 3** - 渐进式 JavaScript 框架
-- **Vite** - 快速的前端构建工具
-- **TypeScript** - 类型安全的 JavaScript
+### 语音房（WebRTC，可选/可扩展）
+- 连接模型：WebRTC P2P 为基础，支持引入 STUN/TURN；根据房间规模可切换 SFU（如 `peer -> SFU`）以提升并发与稳定性。
+- 音频处理：启用回声消除（AEC）、噪声抑制（NS）、自动增益（AGC）；音量可视化（VU meter）与发言检测（Voice Activity Detection）。
+- 设备与权限：麦克风设备选择、静音/取消静音、输入增益调节。
+- 网络自适应：码率/采样率随网络质量自动调整；断线自动重连与轨道重协商（renegotiation）。
 
+注：语音房为可选模块，README 提供设计与集成方案，代码实现可逐步引入（WebRTC 客户端与信令对接）。
+
+### 画布实现（Canvas）
+- 绘制管线：基于 HTML5 Canvas，按 `pointerdown/move/up` 收集点序列；使用 `requestAnimationFrame` 批量渲染，降低抖动。
+- 工具与图层：画笔、橡皮、吸管、形状；多人图层（按用户区分），远端笔画按增量合并，避免覆盖冲突。
+- 同步协议：仅发送增量笔画（起点+点列），支持压缩/节流；带 Ack 与重传，弱网下保证顺序与完整性。
+- 历史与导出：本地历史（Undo/Redo）、快照；导出 PNG/SVG；可扩展服务端持久化与回放。
+
+## 核心功能
+- 房间系统：创建/加入/离开房间，房间列表浏览与人数统计。
+- 实时聊天：文本消息、系统消息分流显示；错误与重试反馈。
+- 成员管理：在线成员、角色（房主/普通成员）、连接与发言状态指示。
+- 语音房（可选）：一键开麦/禁麦、设备选择、音量指示与发言检测、房主控权。
+- 实时画布：多人同步绘制、平滑笔触、图层隔离、历史回放与导出。
+- 词库配置：系统/自定义词库管理，房间配置对话框中动态加载与选择（与玩法联动）。
+- 断线重连：自动恢复订阅与房间上下文，保持体验连续性。
 ### 后端 (udig_be)
 - **Node.js** - JavaScript 运行时
 - **Express** - Web 应用框架
@@ -76,87 +98,3 @@ pnpm run build
 # 启动后端生产服务器
 pnpm run start
 ```
-
-## 可用脚本
-
-### 根目录脚本
-- `pnpm run dev` - 同时启动前后端开发服务器
-- `pnpm run dev:fe` - 启动前端开发服务器
-- `pnpm run dev:be` - 启动后端开发服务器
-- `pnpm run build` - 构建前端项目
-- `pnpm run start` - 启动后端生产服务器
-- `pnpm install` - 安装所有依赖
-- `pnpm run clean` - 清理所有子项目
-- `pnpm run lint` - 运行所有子项目的代码检查
-- `pnpm run test` - 运行所有子项目的测试
-
-### 前端脚本 (udig_fe)
-- `pnpm run dev` - 启动开发服务器
-- `pnpm run build` - 构建生产版本
-- `pnpm run preview` - 预览构建结果
-
-### 后端脚本 (udig_be)
-- `pnpm run start` - 启动生产服务器
-- `pnpm run dev` - 启动开发服务器（使用 nodemon）
-- `pnpm run test` - 运行测试
-- `pnpm run lint` - 代码检查
-
-## 游戏功能
-
-- 🎨 **实时绘画** - 多人实时协作绘画
-- 💬 **聊天系统** - 游戏内聊天功能
-- 🏠 **房间系统** - 创建和加入游戏房间
-- 👥 **多人游戏** - 支持多人同时游戏
-- 🎯 **猜词游戏** - 画图猜词玩法
-
-## API 接口
-
-### REST API
-- `GET /` - 服务器状态
-- `GET /health` - 健康检查
-- `GET /rooms` - 获取房间列表
-- `POST /rooms` - 创建新房间
-- `GET /rooms/:roomId` - 获取房间信息
-
-### Socket.IO 事件
-- `join-room` - 加入房间
-- `leave-room` - 离开房间
-- `drawing-data` - 绘画数据传输
-- `chat-message` - 聊天消息
-- `user-joined` - 用户加入通知
-- `user-left` - 用户离开通知
-
-## 开发指南
-
-### 环境变量配置
-
-后端项目支持环境变量配置，复制 `udig_be/.env.example` 到 `udig_be/.env` 并根据需要修改：
-
-```bash
-cd udig_be
-cp .env.example .env
-```
-
-### 代码规范
-
-项目使用 ESLint 进行代码检查，使用 EditorConfig 统一代码格式。
-
-```bash
-# 运行代码检查
-pnpm run lint
-
-# 自动修复代码格式问题
-pnpm run lint:fix
-```
-
-## 贡献指南
-
-1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 打开 Pull Request
-
-## 许可证
-
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
