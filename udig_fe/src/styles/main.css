@@ -1,0 +1,440 @@
+/* 
+ * 主样式文件 - 你画我猜前端项目
+ * 包含全局样式、组件样式和工具类
+ */
+
+/* ===== 基础重置样式 ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8fafc;
+  color: #1e293b;
+}
+
+/* ===== 按钮样式 ===== */
+.btn-primary {
+  @apply px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.btn-secondary {
+  @apply px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.btn-outline {
+  @apply px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.btn-danger {
+  @apply px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.btn-success {
+  @apply px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+/* ===== 卡片样式 ===== */
+.card {
+  @apply bg-white rounded-lg shadow-sm border border-gray-200 transition-shadow;
+}
+
+.card:hover {
+  @apply shadow-md;
+}
+
+.card-header {
+  @apply p-4 border-b border-gray-200;
+}
+
+.card-body {
+  @apply p-4;
+}
+
+.card-footer {
+  @apply p-4 border-t border-gray-200 bg-gray-50;
+}
+
+/* ===== 表单样式 ===== */
+.form-input {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors;
+}
+
+.form-input:disabled {
+  @apply bg-gray-100 cursor-not-allowed;
+}
+
+.form-input.error {
+  @apply border-red-500 focus:ring-red-500;
+}
+
+.form-label {
+  @apply block text-sm font-medium text-gray-700 mb-1;
+}
+
+.form-error {
+  @apply text-sm text-red-600 mt-1;
+}
+
+.form-help {
+  @apply text-sm text-gray-500 mt-1;
+}
+
+/* ===== 消息样式 ===== */
+.message-item {
+  @apply mb-3 last:mb-0;
+}
+
+.message-system {
+  @apply text-center;
+}
+
+.message-system .message-content {
+  @apply inline-block px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full;
+}
+
+.message-chat {
+  @apply flex items-start space-x-3;
+}
+
+.message-chat.own {
+  @apply flex-row-reverse space-x-reverse;
+}
+
+.message-avatar {
+  @apply w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-semibold flex-shrink-0;
+}
+
+.message-bubble {
+  @apply max-w-xs lg:max-w-md px-3 py-2 rounded-lg;
+}
+
+.message-bubble.other {
+  @apply bg-white border border-gray-200;
+}
+
+.message-bubble.own {
+  @apply bg-blue-500 text-white;
+}
+
+.message-sender {
+  @apply text-xs text-gray-500 mb-1;
+}
+
+.message-content {
+  @apply text-sm leading-relaxed break-words;
+}
+
+.message-time {
+  @apply text-xs text-gray-400 mt-1;
+}
+
+/* ===== 成员列表样式 ===== */
+.member-item {
+  @apply flex items-center space-x-3 p-3 hover:bg-gray-50 transition-colors;
+}
+
+.member-avatar {
+  @apply w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white font-semibold;
+}
+
+.member-info {
+  @apply flex-1 min-w-0;
+}
+
+.member-name {
+  @apply text-sm font-medium text-gray-900 truncate;
+}
+
+.member-status {
+  @apply text-xs text-gray-500;
+}
+
+.member-badge {
+  @apply px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full;
+}
+
+/* ===== 房间卡片样式 ===== */
+.room-card {
+  @apply card p-4 cursor-pointer transition-all duration-200;
+}
+
+.room-card:hover {
+  @apply shadow-lg transform -translate-y-1;
+}
+
+.room-header {
+  @apply flex justify-between items-start mb-3;
+}
+
+.room-title {
+  @apply font-semibold text-gray-800 truncate;
+}
+
+.room-id {
+  @apply text-sm text-gray-500 truncate;
+}
+
+.room-count {
+  @apply bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full;
+}
+
+.room-footer {
+  @apply flex justify-between items-center;
+}
+
+.room-members {
+  @apply flex -space-x-2;
+}
+
+.room-member-avatar {
+  @apply w-6 h-6 bg-gray-300 rounded-full border-2 border-white flex items-center justify-center text-xs text-gray-600;
+}
+
+/* ===== 聊天窗口样式 ===== */
+.chat-window {
+  @apply bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col;
+}
+
+.chat-header {
+  @apply p-4 border-b border-gray-200 bg-gray-50;
+}
+
+.chat-messages {
+  @apply flex-1 p-4 overflow-y-auto;
+  max-height: 60vh;
+  min-height: 300px;
+}
+
+.chat-input {
+  @apply p-4 border-t border-gray-200;
+}
+
+.scroll-to-bottom {
+  @apply fixed bottom-20 right-6 w-10 h-10 bg-blue-500 text-white rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:bg-blue-600 transition-colors;
+}
+
+/* ===== 加载动画 ===== */
+.loading-spinner {
+  @apply inline-block animate-spin rounded-full border-2 border-gray-300 border-t-blue-500;
+}
+
+.loading-dots {
+  @apply inline-flex space-x-1;
+}
+
+.loading-dot {
+  @apply w-2 h-2 bg-gray-400 rounded-full animate-pulse;
+}
+
+.loading-dot:nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.loading-dot:nth-child(2) {
+  animation-delay: 150ms;
+}
+
+.loading-dot:nth-child(3) {
+  animation-delay: 300ms;
+}
+
+/* ===== 状态指示器 ===== */
+.status-online {
+  @apply w-3 h-3 bg-green-500 rounded-full;
+}
+
+.status-offline {
+  @apply w-3 h-3 bg-red-500 rounded-full;
+}
+
+.status-connecting {
+  @apply w-3 h-3 bg-yellow-500 rounded-full animate-pulse;
+}
+
+/* ===== 通知样式 ===== */
+.notification {
+  @apply fixed top-4 right-4 max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-50;
+}
+
+.notification.success {
+  @apply border-green-200 bg-green-50;
+}
+
+.notification.error {
+  @apply border-red-200 bg-red-50;
+}
+
+.notification.warning {
+  @apply border-yellow-200 bg-yellow-50;
+}
+
+.notification.info {
+  @apply border-blue-200 bg-blue-50;
+}
+
+/* ===== 模态框样式 ===== */
+.modal-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50;
+}
+
+.modal-content {
+  @apply bg-white rounded-lg shadow-xl max-w-md w-full mx-4 max-h-screen overflow-y-auto;
+}
+
+.modal-header {
+  @apply p-6 border-b border-gray-200;
+}
+
+.modal-body {
+  @apply p-6;
+}
+
+.modal-footer {
+  @apply p-6 border-t border-gray-200 flex justify-end space-x-3;
+}
+
+/* ===== 工具类 ===== */
+.flex-center {
+  @apply flex items-center justify-center;
+}
+
+.text-ellipsis {
+  @apply truncate;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ===== 响应式工具 ===== */
+@media (max-width: 640px) {
+  .mobile-hidden {
+    @apply hidden;
+  }
+  
+  .mobile-full {
+    @apply w-full;
+  }
+  
+  .mobile-stack {
+    @apply flex-col space-y-2 space-x-0;
+  }
+}
+
+@media (min-width: 641px) {
+  .desktop-hidden {
+    @apply hidden;
+  }
+}
+
+/* ===== 动画类 ===== */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+.bounce-in {
+  animation: bounceIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ===== 打印样式 ===== */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-break {
+    page-break-after: always;
+  }
+  
+  .print-avoid-break {
+    page-break-inside: avoid;
+  }
+}
+
+/* ===== 深色模式支持（预留） ===== */
+@media (prefers-color-scheme: dark) {
+  /* 可以在这里添加深色模式样式 */
+}
+
+/* ===== 高对比度模式支持 ===== */
+@media (prefers-contrast: high) {
+  .card {
+    @apply border-2 border-gray-800;
+  }
+  
+  .btn-primary {
+    @apply border-2 border-blue-800;
+  }
+}
+
+/* ===== 减少动画模式支持 ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

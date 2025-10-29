@@ -1,0 +1,44 @@
+{
+  "name": "you-draw-i-guess",
+  "version": "1.0.0",
+  "description": "You Draw I Guess - A multiplayer drawing and guessing game",
+  "private": true,
+
+  "scripts": {
+    "dev": "concurrently \"pnpm run dev:fe\" \"pnpm run dev:be\"",
+    "dev:fe": "pnpm --filter udig_fe dev",
+    "dev:be": "pnpm --filter udig_be dev",
+    "build": "pnpm --filter udig_fe build",
+    "build:fe": "pnpm --filter udig_fe build",
+    "start": "pnpm --filter udig_be start",
+    "start:be": "pnpm --filter udig_be start",
+    "install:all": "pnpm install",
+    "clean": "pnpm --filter \"*\" clean",
+    "lint": "pnpm --filter \"*\" lint",
+    "lint:fix": "pnpm --filter \"*\" lint:fix",
+    "test": "pnpm --filter \"*\" test"
+  },
+  "keywords": [
+    "monorepo",
+    "game",
+    "drawing",
+    "multiplayer",
+    "vue3",
+    "nodejs",
+    "express",
+    "socket.io"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  }
+}
